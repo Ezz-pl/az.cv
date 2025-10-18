@@ -234,13 +234,13 @@ function renderCertifications() {
 // ===================================================
 
 document.getElementById('download-cv-btn').addEventListener('click', () => {
-    // العناصر التي نريد تضمينها في الـ CV المختصر
+    // العناصر التي نريد تضمينها في الـ CV المختصر (تعديل جذري)
     const elementsToCapture = ['#home', '#about', '#experience', '#skills', '#contact-info']; 
     const temporaryDiv = document.createElement('div');
     temporaryDiv.id = 'pdf-capture-temp';
     temporaryDiv.style.backgroundColor = '#ffffff'; 
     temporaryDiv.style.padding = '20px';
-    temporaryDiv.style.maxWidth = '800px'; // لتحديد عرض ثابت
+    temporaryDiv.style.maxWidth = '800px'; 
     temporaryDiv.style.margin = '0 auto';
     
     // نسخ المحتوى المختار وإجراء تعديلات CSS لتبسيط الـ PDF (يضمن طباعة مختصرة)
