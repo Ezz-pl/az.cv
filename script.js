@@ -122,7 +122,8 @@ const countUp = (targetElement, endValue, duration, suffix) => {
 const statsObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            countUp(document.querySelector('.stats-grid .stat-item:nth-child(1) .number'), 3, 2000, '+'); // 3+ سنوات
+            // التعديل هنا: تشغيل العداد على 4 بدلاً من 3
+            countUp(document.querySelector('.stats-grid .stat-item:nth-child(1) .number'), 4, 2000, '+'); // 4+ سنوات
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(2) .number'), 3, 1500, '+'); // 3+ مشاريع
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(3) .number'), 71, 2000, ' ساعة'); // 71 ساعة تدريب
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(4) .number'), 94, 2500, '%'); // 94% إتمام
@@ -232,17 +233,18 @@ function renderCertifications() {
 // ===================================================
 // 7. وظيفة توليد السيرة الذاتية (PDF Generation)
 // ===================================================
-
 document.getElementById('download-cv-btn').addEventListener('click', () => {
-    // العناصر التي نريد تضمينها في الـ CV المختصر (تعديل جذري)
-    // طباعة الأقسام الأساسية فقط لضمان الاختصار
-    const elementsToCapture = ['#home', '#experience', '#skills', '#contact-info']; 
+    // العناصر الأساسية التي يجب تضمينها في الـ CV المختصر:
+    const elementsToCapture = ['#home', '#about', '#experience', '#skills', '#contact-info']; 
     const temporaryDiv = document.createElement('div');
     temporaryDiv.id = 'pdf-capture-temp';
+    // تحديد خصائص لتوليد PDF بشكل صحيح (خلفية بيضاء، حجم مناسب)
     temporaryDiv.style.backgroundColor = '#ffffff'; 
     temporaryDiv.style.padding = '20px';
     temporaryDiv.style.maxWidth = '800px'; 
     temporaryDiv.style.margin = '0 auto';
+    temporaryDiv.style.color = '#000000'; // لجعل النصوص سوداء في الـ PDF
+    temporaryDiv.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr'; // توجيه اللغة
     
     // نسخ المحتوى المختار وإجراء تعديلات CSS لتبسيط الـ PDF (يضمن طباعة مختصرة)
     elementsToCapture.forEach(selector => {
@@ -254,39 +256,79 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
             clone.style.padding = '10px 0'; // تقليل الفراغات
             clone.classList.remove('reveal-on-scroll', 'visible');
             
-            // تخصيص قسم المقدمة (إزالة الأزرار والنبذة الطويلة)
+            // تخصيص قسم المقدمة (#home)
             if (selector === '#home') {
                  clone.querySelector('.hero-content').style.background = 'none';
                  clone.querySelector('.hero-content').style.boxShadow = 'none';
-                 clone.querySelector('.cta-buttons').style.display = 'none';
+                 clone.querySelector('.cta-buttons').style.display = 'none'; // إزالة الأزرار
                  clone.querySelector('.profile-image').style.border = '2px solid #A900FF'; 
-                 clone.querySelector('.hero-contact-info').style.color = '#000000'; // جعلها سوداء
+                 clone.querySelectorAll('.hero-contact-info span').forEach(span => span.style.color = '#000000'); // جعل المعلومات سوداء
                  clone.style.height = 'auto';
                  clone.style.textAlign = 'center';
                  
-                 // إضافة النبذة القصيرة التي كانت موجودة في الـ Hero للموقع المباشر
-                 const shortDesc = document.createElement('p');
-                 shortDesc.textContent = document.querySelector('#home .description').textContent;
-                 shortDesc.style.color = '#555';
-                 shortDesc.style.maxWidth = '500px';
-                 shortDesc.style.margin = '10px auto 0';
-                 clone.querySelector('.hero-content').appendChild(shortDesc);
+                 // إضافة النبذة القصيرة من قسم "من أنا" (لضمان وجودها في الصفحة الأولى)
+                 const shortDescOriginal = document.querySelector('#about .description');
+                 if(shortDescOriginal) {
+                     const shortDesc = document.createElement('p');
+                     shortDesc.textContent = shortDescOriginal.getAttribute(currentLang === 'ar' ? 'data-ar' : 'data-en');
+                     shortDesc.style.color = '#333';
+                     shortDesc.style.maxWidth = '600px';
+                     shortDesc.style.margin = '15px auto 0';
+                     shortDesc.style.padding = '0 10px';
+                     clone.querySelector('.hero-content').appendChild(shortDesc);
+                 }
             }
-            // تخصيص قسم المهارات
+             // تخصيص قسم من أنا (#about) - إزالة العنوان فقط أو تخطيه إذا لم يُرغب في تكرار النبذة
+             if (selector === '#about') {
+                 clone.style.display = 'none'; // نخفي قسم من أنا لأنه تم نسخ نصه إلى قسم #home
+             }
+            // تخصيص قسم المهارات (#skills)
             if (selector === '#skills') {
+                clone.querySelectorAll('.skill-group h4').forEach(h4 => h4.style.color = '#000000');
+                clone.querySelectorAll('.skill-bar-container p').forEach(p => p.style.color = '#000000');
                 clone.querySelectorAll('.skill-bar').forEach(bar => {
                     // إظهار الشريط باللون الأرجواني مباشرة
                     bar.style.width = bar.getAttribute('data-level') + '%';
                     bar.style.backgroundColor = '#A900FF'; 
                     bar.style.height = '8px';
+                    bar.style.position = 'static'; // إزالة الوضع المطلق لـ ::after
+                    // يتم إنشاء عنصر وهمي بالـ JS لتقليد الـ ::after لـ html2canvas
+                    const fillBar = document.createElement('div');
+                    fillBar.style.height = '8px';
+                    fillBar.style.backgroundColor = '#A900FF';
+                    fillBar.style.width = bar.getAttribute('data-level') + '%';
+                    if (currentLang === 'ar') {
+                        fillBar.style.float = 'right';
+                    } else {
+                        fillBar.style.float = 'left';
+                    }
+                    bar.innerHTML = ''; 
+                    bar.appendChild(fillBar);
+                    bar.style.backgroundColor = '#ddd'; // خلفية شريط المهارة
+                    bar.style.overflow = 'visible'; // للسماح للعنصر الوهمي بالظهور
                 });
             }
-            // تخصيص قسم معلومات الاتصال
+            // تخصيص قسم معلومات الاتصال (#contact-info)
             if (selector === '#contact-info') {
                 clone.querySelectorAll('.contact-item').forEach(item => {
                     item.style.backgroundColor = '#f4f4f4'; // خلفية فاتحة للبطاقة
                     item.style.color = '#000';
                 });
+                clone.querySelectorAll('.contact-item a').forEach(a => a.style.color = '#000');
+                clone.querySelectorAll('.contact-item i').forEach(i => i.style.color = '#A900FF');
+            }
+            // تخصيص قسم الخبرة (#experience)
+            if (selector === '#experience') {
+                clone.querySelectorAll('.timeline-item h4').forEach(h4 => h4.style.color = '#333');
+                clone.querySelectorAll('.timeline-item h5').forEach(h5 => h5.style.color = '#A900FF');
+                clone.querySelectorAll('.timeline-item ul').forEach(ul => {
+                     ul.style.color = '#555';
+                     // إزالة نقطة الـ before التي لا تظهر بشكل جيد في الـ PDF
+                     ul.querySelectorAll('li').forEach(li => li.style.padding = '0');
+                });
+                clone.querySelectorAll('.timeline-marker').forEach(marker => marker.style.display = 'none');
+                clone.style.borderRight = 'none';
+                clone.style.paddingRight = '0';
             }
             
             // تعديلات عامة
@@ -294,9 +336,6 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
                 title.style.color = '#A900FF';
                 title.style.borderBottom = '2px solid #A900FF';
             });
-            clone.querySelectorAll('.timeline-marker').forEach(marker => marker.style.display = 'none');
-            clone.querySelectorAll('.timeline-item ul li::before').forEach(dot => dot.style.color = '#A900FF'); 
-            clone.querySelectorAll('.timeline-item h5').forEach(h5 => h5.style.color = '#A900FF');
             
             temporaryDiv.appendChild(clone);
         }
@@ -304,7 +343,9 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
     
     // إضافة Footer خاص بالـ PDF
     const pdfFooter = document.createElement('p');
-    pdfFooter.textContent = 'يمكنكم رؤية الموقع الإلكتروني الكامل على: https://ezz-pl.github.io/az.cv';
+    pdfFooter.textContent = currentLang === 'ar' 
+        ? 'يمكنكم رؤية الموقع الإلكتروني الكامل على: https://ezz-pl.github.io/az.cv' 
+        : 'View the full online CV at: https://ezz-pl.github.io/az.cv';
     pdfFooter.style.textAlign = 'center';
     pdfFooter.style.fontSize = '12px';
     pdfFooter.style.color = '#555';
@@ -319,7 +360,7 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
     const { jsPDF } = window.jspdf;
     
     html2canvas(temporaryDiv, { 
-        scale: 2, 
+        scale: 2, // دقة عالية
         useCORS: true,
         logging: false
     }).then(canvas => {
@@ -336,14 +377,14 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
         heightLeft -= pdf.internal.pageSize.getHeight();
         
         // دعم الصفحات المتعددة (لضمان طباعة الأقسام كلها)
-        while (heightLeft >= -20) { // هامش بسيط للسماح بطباعة الجزء الأخير
+        while (heightLeft >= -20) { 
             position = heightLeft - pdfHeight;
             pdf.addPage();
             pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight);
             heightLeft -= pdf.internal.pageSize.getHeight();
         }
 
-        const filename = currentLang === 'ar' ? 'السيرة_الذاتية_عبدالعزيز_العنزي.pdf' : 'Abdulaziz_Al-Enazi_CV.pdf';
+        const filename = currentLang === 'ar' ? 'السيرة_الذاتية_المختصرة_عبدالعزيز_العنزي.pdf' : 'Abdulaziz_Al-Enazi_Brief_CV.pdf';
         pdf.save(filename);
         
         // إزالة العنصر المؤقت من الـ Body بعد الانتهاء
@@ -351,7 +392,9 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
     }).catch(error => {
         console.error('PDF Generation Error:', error);
         alert('عفواً، حدث خطأ أثناء توليد السيرة الذاتية. يرجى المحاولة لاحقاً.');
-        document.body.removeChild(temporaryDiv);
+        if (document.body.contains(temporaryDiv)) {
+             document.body.removeChild(temporaryDiv);
+        }
     });
 });
 
