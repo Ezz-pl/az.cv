@@ -125,7 +125,7 @@ const statsObserver = new IntersectionObserver((entries, observer) => {
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(1) .number'), 2, 2000, '+'); // 2+ سنوات
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(2) .number'), 3, 1500, '+'); // 3+ مشاريع
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(3) .number'), 71, 2000, ' ساعة'); // 71 ساعة تدريب
-            countUp(document.querySelector('.stats-grid .stat-item:nth-child(4) .number'), 20, 2500, '%'); // 20% تحسين
+            countUp(document.querySelector('.stats-grid .stat-item:nth-child(4) .number'), 94, 2500, '%'); // 94% إتمام
             observer.unobserve(entry.target); 
         }
     });
@@ -235,21 +235,25 @@ function renderCertifications() {
 
 document.getElementById('download-cv-btn').addEventListener('click', () => {
     // العناصر التي نريد تضمينها في الـ CV المختصر
-    const elementsToCapture = ['#home', '#about', '#experience', '#skills', '#contact-info']; // طباعة 5 أقسام فقط
+    const elementsToCapture = ['#home', '#about', '#experience', '#skills', '#contact-info']; 
     const temporaryDiv = document.createElement('div');
     temporaryDiv.id = 'pdf-capture-temp';
     temporaryDiv.style.backgroundColor = '#ffffff'; 
     temporaryDiv.style.padding = '20px';
-    temporaryDiv.style.maxWidth = '800px';
+    temporaryDiv.style.maxWidth = '800px'; // لتحديد عرض ثابت
     temporaryDiv.style.margin = '0 auto';
     
-    // نسخ المحتوى المختار وإجراء تعديلات CSS لتبسيط الـ PDF
+    // نسخ المحتوى المختار وإجراء تعديلات CSS لتبسيط الـ PDF (يضمن طباعة مختصرة)
     elementsToCapture.forEach(selector => {
         const originalElement = document.querySelector(selector);
         if (originalElement) {
             const clone = originalElement.cloneNode(true);
             
-            // إزالة العناصر غير الضرورية من الـ PDF
+            // تعديلات لنسخة الـ PDF
+            clone.style.padding = '10px 0'; // تقليل الفراغات
+            clone.classList.remove('reveal-on-scroll', 'visible');
+            
+            // تخصيص قسم المقدمة
             if (selector === '#home') {
                  clone.querySelector('.hero-content').style.background = 'none';
                  clone.querySelector('.hero-content').style.boxShadow = 'none';
@@ -257,26 +261,25 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
                  clone.querySelector('.profile-image').style.border = '2px solid #A900FF'; 
                  clone.querySelector('.hero-contact-info').style.color = '#000000'; // جعلها سوداء
                  clone.style.height = 'auto';
-                 clone.style.padding = '20px 0';
                  clone.style.textAlign = 'center';
             }
+            // تخصيص قسم المهارات
             if (selector === '#skills') {
-                // إظهار أشرطة المهارات بشكل ثابت (بدون انيميشن في الـ PDF)
                 clone.querySelectorAll('.skill-bar').forEach(bar => {
+                    // إظهار الشريط باللون الأرجواني مباشرة
                     bar.style.width = bar.getAttribute('data-level') + '%';
-                    bar.style.backgroundColor = '#A900FF'; // ملء اللون مباشرة
+                    bar.style.backgroundColor = '#A900FF'; 
                     bar.style.height = '8px';
                 });
             }
+            // تخصيص قسم معلومات الاتصال
             if (selector === '#contact-info') {
-                // جعل عرض الاتصال في سطر واحد لتوفير المساحة في الـ PDF
                 clone.querySelectorAll('.contact-item').forEach(item => {
-                    item.style.display = 'block';
-                    item.style.marginBottom = '5px';
-                    item.querySelector('i').style.display = 'inline-block';
+                    item.style.backgroundColor = '#f4f4f4'; // خلفية فاتحة للبطاقة
+                    item.style.color = '#000';
                 });
             }
-
+            
             // تعديلات عامة
             clone.querySelectorAll('.section-title').forEach(title => {
                 title.style.color = '#A900FF';
@@ -285,7 +288,6 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
             clone.querySelectorAll('.timeline-marker').forEach(marker => marker.style.display = 'none');
             clone.querySelectorAll('.timeline-item ul li::before').forEach(dot => dot.style.color = '#A900FF'); 
             clone.querySelectorAll('.timeline-item h5').forEach(h5 => h5.style.color = '#A900FF');
-            clone.classList.remove('reveal-on-scroll', 'visible');
             
             temporaryDiv.appendChild(clone);
         }
@@ -308,13 +310,14 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
         
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-        let heightLeft = pdfHeight;
         let position = 0;
+        let heightLeft = pdfHeight;
 
         pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight);
         heightLeft -= pdf.internal.pageSize.getHeight();
         
-        while (heightLeft >= 0) {
+        // دعم الصفحات المتعددة (لضمان طباعة الأقسام كلها)
+        while (heightLeft >= -20) { // هامش بسيط للسماح بطباعة الجزء الأخير
             position = heightLeft - pdfHeight;
             pdf.addPage();
             pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight);
