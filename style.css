@@ -22,6 +22,7 @@ body {
     --font-size-large: 48px;
     --font-size-medium: 28px;
     --font-size-small: 16px;
+    --skill-width: 0; /* متغير CSS للحركة التفاعلية */
 }
 
 /* تعديلات RTL/LTR */
@@ -154,7 +155,6 @@ main { max-width: 1200px; margin: 0 auto; padding: 20px; }
     margin-bottom: 25px;
     font-weight: 400;
 }
-
 .section-title {
     font-size: var(--font-size-medium);
     color: var(--color-accent);
