@@ -122,7 +122,7 @@ const countUp = (targetElement, endValue, duration, suffix) => {
 const statsObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            countUp(document.querySelector('.stats-grid .stat-item:nth-child(1) .number'), 2, 2000, '+'); // 2+ سنوات
+            countUp(document.querySelector('.stats-grid .stat-item:nth-child(1) .number'), 3, 2000, '+'); // 3+ سنوات
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(2) .number'), 3, 1500, '+'); // 3+ مشاريع
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(3) .number'), 71, 2000, ' ساعة'); // 71 ساعة تدريب
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(4) .number'), 94, 2500, '%'); // 94% إتمام
@@ -235,7 +235,8 @@ function renderCertifications() {
 
 document.getElementById('download-cv-btn').addEventListener('click', () => {
     // العناصر التي نريد تضمينها في الـ CV المختصر (تعديل جذري)
-    const elementsToCapture = ['#home', '#about', '#experience', '#skills', '#contact-info']; 
+    // طباعة الأقسام الأساسية فقط لضمان الاختصار
+    const elementsToCapture = ['#home', '#experience', '#skills', '#contact-info']; 
     const temporaryDiv = document.createElement('div');
     temporaryDiv.id = 'pdf-capture-temp';
     temporaryDiv.style.backgroundColor = '#ffffff'; 
@@ -253,7 +254,7 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
             clone.style.padding = '10px 0'; // تقليل الفراغات
             clone.classList.remove('reveal-on-scroll', 'visible');
             
-            // تخصيص قسم المقدمة
+            // تخصيص قسم المقدمة (إزالة الأزرار والنبذة الطويلة)
             if (selector === '#home') {
                  clone.querySelector('.hero-content').style.background = 'none';
                  clone.querySelector('.hero-content').style.boxShadow = 'none';
@@ -262,6 +263,14 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
                  clone.querySelector('.hero-contact-info').style.color = '#000000'; // جعلها سوداء
                  clone.style.height = 'auto';
                  clone.style.textAlign = 'center';
+                 
+                 // إضافة النبذة القصيرة التي كانت موجودة في الـ Hero للموقع المباشر
+                 const shortDesc = document.createElement('p');
+                 shortDesc.textContent = document.querySelector('#home .description').textContent;
+                 shortDesc.style.color = '#555';
+                 shortDesc.style.maxWidth = '500px';
+                 shortDesc.style.margin = '10px auto 0';
+                 clone.querySelector('.hero-content').appendChild(shortDesc);
             }
             // تخصيص قسم المهارات
             if (selector === '#skills') {
@@ -292,6 +301,16 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
             temporaryDiv.appendChild(clone);
         }
     });
+    
+    // إضافة Footer خاص بالـ PDF
+    const pdfFooter = document.createElement('p');
+    pdfFooter.textContent = 'يمكنكم رؤية الموقع الإلكتروني الكامل على: https://ezz-pl.github.io/az.cv';
+    pdfFooter.style.textAlign = 'center';
+    pdfFooter.style.fontSize = '12px';
+    pdfFooter.style.color = '#555';
+    pdfFooter.style.paddingTop = '20px';
+    temporaryDiv.appendChild(pdfFooter);
+
 
     // إضافة Div المؤقت إلى الـ Body
     document.body.appendChild(temporaryDiv);
