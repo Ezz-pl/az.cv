@@ -146,8 +146,8 @@ const revealObserver = new IntersectionObserver((entries, observer) => {
             entry.target.classList.add('visible');
             // تشغيل أشرطة المهارات عند الظهور
             if (entry.target.id === 'skills') {
-                document.querySelectorAll('.skill-bar').forEach(bar => {
-                    const level = bar.getAttribute('data-level') + '%';
+                document.querySelectorAll('.skill-bar::after').forEach(bar => {
+                    const level = bar.parentElement.getAttribute('data-level') + '%';
                     bar.style.width = level; 
                 });
             }
