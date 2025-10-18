@@ -124,7 +124,7 @@ const statsObserver = new IntersectionObserver((entries, observer) => {
         if (entry.isIntersecting) {
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(1) .number'), 2, 2000, '+'); // 2+ سنوات
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(2) .number'), 3, 1500, '+'); // 3+ مشاريع
-            countUp(document.querySelector('.stats-grid .stat-item:nth-child(3) .number'), 6, 2000, ''); // 6 مسارات
+            countUp(document.querySelector('.stats-grid .stat-item:nth-child(3) .number'), 71, 2000, ' ساعة'); // 71 ساعة تدريب
             countUp(document.querySelector('.stats-grid .stat-item:nth-child(4) .number'), 20, 2500, '%'); // 20% تحسين
             observer.unobserve(entry.target); 
         }
@@ -148,7 +148,6 @@ const revealObserver = new IntersectionObserver((entries, observer) => {
             if (entry.target.id === 'skills') {
                 document.querySelectorAll('.skill-bar').forEach(bar => {
                     const level = bar.getAttribute('data-level') + '%';
-                    bar.style.setProperty('--skill-width', level);
                     bar.style.width = level; 
                 });
             }
