@@ -1,26 +1,26 @@
 // ===================================================
-// 1. بيانات الدورات (لإنشاء الـ Accordion)
+// 1. بيانات الدورات (لإنشاء الـ Accordion) - تم إدراج رقم الشهادة كاملاً
 // ===================================================
 const certificationData = [
     { 
         ar: "خدمة العملاء (مسار 2)", en: "Customer Service (Track 2)", 
         details: { 
-            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 25 ساعة", "تاريخ الإصدار: 2025-09-26", "رقم الشهادة: d1dbdd07-7b89..."], 
-            en: ["Accredited By: HADAF (Doroob)", "Hours: 25 hours", "Award Date: 2025-09-26", "Certificate No.: d1dbdd07-7b89..."] 
+            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 25 ساعة", "تاريخ الإصدار: 2025-09-26", "رقم الشهادة: d1dbdd07-7b89-4bel-893c-10c194015d01"], 
+            en: ["Accredited By: HADAF (Doroob)", "Hours: 25 hours", "Award Date: 2025-09-26", "Certificate No.: d1dbdd07-7b89-4bel-893c-10c194015d01"] 
         } 
     },
     { 
         ar: "خدمة العملاء (مسار 1)", en: "Customer Service (Track 1)", 
         details: { 
-            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 18 ساعة", "تاريخ الإصدار: 2025-09-26", "رقم الشهادة: 46a17bd9-6207..."], 
-            en: ["Accredited By: HADAF (Doroob)", "Hours: 18 hours", "Award Date: 2025-09-26", "Certificate No.: 46a17bd9-6207..."] 
+            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 18 ساعة", "تاريخ الإصدار: 2025-09-26", "رقم الشهادة: 46a17bd9-6207-4979-8112-00a589e2c62e"], 
+            en: ["Accredited By: HADAF (Doroob)", "Hours: 18 hours", "Award Date: 2025-09-26", "Certificate No.: 46a17bd9-6207-4979-8112-00a589e2c62e"] 
         } 
     },
     { 
         ar: "مبادئ خدمة العملاء", en: "Customer Service Principles", 
         details: { 
-            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 13 ساعة", "تاريخ الإصدار: 2025-09-27", "رقم الشهادة: a1d622a1-5d22..."], 
-            en: ["Accredited By: HADAF (Doroob)", "Hours: 13 hours", "Award Date: 2025-09-27", "Certificate No.: a1d622a1-5d22..."] 
+            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 13 ساعة", "تاريخ الإصدار: 2025-09-27", "رقم الشهادة: a1d622a1-5d22-4901-89ff-a95a6b434297"], 
+            en: ["Accredited By: HADAF (Doroob)", "Hours: 13 hours", "Award Date: 2025-09-27", "Certificate No.: a1d622a1-5d22-4901-89ff-a95a6b434297"] 
         } 
     },
     { 
@@ -33,22 +33,22 @@ const certificationData = [
     { 
         ar: "بيئة عمل صحية", en: "A Healthy Work Environment", 
         details: { 
-            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 5 ساعات", "تاريخ الإصدار: 2025-09-24", "رقم الشهادة: 95bc9c2c-bd12..."], 
-            en: ["Accredited By: HADAF (Doroob)", "Hours: 5 hours", "Award Date: 2025-09-24", "Certificate No.: 95bc9c2c-bd12..."] 
+            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 5 ساعات", "تاريخ الإصدار: 2025-09-24", "رقم الشهادة: 95bc9c2c-bd12-4da6-b300-7d4dbl105fc3"], 
+            en: ["Accredited By: HADAF (Doroob)", "Hours: 5 hours", "Award Date: 2025-09-24", "Certificate No.: 95bc9c2c-bd12-4da6-b300-7d4dbl105fc3"] 
         } 
     },
     { 
         ar: "صناعة السياحة", en: "Tourism Industry", 
         details: { 
-            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 8 ساعات", "تاريخ الإصدار: 2025-09-24", "رقم الشهادة: 168600de-3e0d..."], 
-            en: ["Accredited By: HADAF (Doroob)", "Hours: 8 hours", "Award Date: 2025-09-24", "Certificate No.: 168600de-3e0d..."] 
+            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 8 ساعات", "تاريخ الإصدار: 2025-09-24", "رقم الشهادة: 168600de-3e0d-4ba8-a704-4d73cadf3857"], 
+            en: ["Accredited By: HADAF (Doroob)", "Hours: 8 hours", "Award Date: 2025-09-24", "Certificate No.: 168600de-3e0d-4ba8-a704-4d73cadf3857"] 
         } 
     },
     { 
         ar: "كن قائداً", en: "Be a Leader", 
         details: { 
-            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 4 ساعات", "تاريخ الإصدار: 2025-09-24", "رقم الشهادة: a2723ab0-0068..."], 
-            en: ["Accredited By: HADAF (Doroob)", "Hours: 4 hours", "Award Date: 2025-09-24", "Certificate No.: a2723ab0-0068..."] 
+            ar: ["جهة الاعتماد: هدف (دروب)", "عدد الساعات: 4 ساعات", "تاريخ الإصدار: 2025-09-24", "رقم الشهادة: a2723ab0-0068-4455-8954-250d111dd611"], 
+            en: ["Accredited By: HADAF (Doroob)", "Hours: 4 hours", "Award Date: 2025-09-24", "Certificate No.: a2723ab0-0068-4455-8954-250d111dd611"] 
         } 
     },
 ];
@@ -144,11 +144,12 @@ const revealObserver = new IntersectionObserver((entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            // تشغيل أشرطة المهارات عند الظهور
+            // تشغيل أشرطة المهارات عند الظهور (تفاعلي)
             if (entry.target.id === 'skills') {
-                document.querySelectorAll('.skill-bar::after').forEach(bar => {
-                    const level = bar.parentElement.getAttribute('data-level') + '%';
-                    bar.style.width = level; 
+                document.querySelectorAll('.skill-bar').forEach(bar => {
+                    const level = bar.getAttribute('data-level') + '%';
+                    // يتم تحريك شريط التقدم عبر الـ CSS
+                    bar.style.setProperty('--skill-width', level);
                 });
             }
         }
@@ -234,7 +235,7 @@ function renderCertifications() {
 
 document.getElementById('download-cv-btn').addEventListener('click', () => {
     // العناصر التي نريد تضمينها في الـ CV المختصر
-    const elementsToCapture = ['#home', '#about', '#experience', '#skills', '#certifications'];
+    const elementsToCapture = ['#home', '#about', '#experience', '#skills', '#contact-info']; // طباعة 5 أقسام فقط
     const temporaryDiv = document.createElement('div');
     temporaryDiv.id = 'pdf-capture-temp';
     temporaryDiv.style.backgroundColor = '#ffffff'; 
@@ -254,7 +255,7 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
                  clone.querySelector('.hero-content').style.boxShadow = 'none';
                  clone.querySelector('.cta-buttons').style.display = 'none';
                  clone.querySelector('.profile-image').style.border = '2px solid #A900FF'; 
-                 clone.querySelector('.tagline').style.color = '#A900FF';
+                 clone.querySelector('.hero-contact-info').style.color = '#000000'; // جعلها سوداء
                  clone.style.height = 'auto';
                  clone.style.padding = '20px 0';
                  clone.style.textAlign = 'center';
@@ -267,18 +268,20 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
                     bar.style.height = '8px';
                 });
             }
-            if (selector === '#certifications') {
-                // إظهار جميع محتويات الـ Accordion بشكل مفتوح
-                clone.querySelectorAll('.accordion-header i').forEach(icon => icon.style.display = 'none');
-                clone.querySelectorAll('.accordion-content').forEach(content => {
-                    content.classList.add('active');
-                    content.style.maxHeight = 'none';
-                    content.style.padding = '15px 20px';
+            if (selector === '#contact-info') {
+                // جعل عرض الاتصال في سطر واحد لتوفير المساحة في الـ PDF
+                clone.querySelectorAll('.contact-item').forEach(item => {
+                    item.style.display = 'block';
+                    item.style.marginBottom = '5px';
+                    item.querySelector('i').style.display = 'inline-block';
                 });
             }
 
             // تعديلات عامة
-            clone.querySelectorAll('.section-title').forEach(title => title.style.color = '#A900FF');
+            clone.querySelectorAll('.section-title').forEach(title => {
+                title.style.color = '#A900FF';
+                title.style.borderBottom = '2px solid #A900FF';
+            });
             clone.querySelectorAll('.timeline-marker').forEach(marker => marker.style.display = 'none');
             clone.querySelectorAll('.timeline-item ul li::before').forEach(dot => dot.style.color = '#A900FF'); 
             clone.querySelectorAll('.timeline-item h5').forEach(h5 => h5.style.color = '#A900FF');
