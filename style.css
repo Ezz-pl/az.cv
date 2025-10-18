@@ -148,13 +148,22 @@ main { max-width: 1200px; margin: 0 auto; padding: 20px; }
     box-shadow: 0 0 20px var(--color-highlight);
     margin-bottom: 20px;
 }
-.hero-contact-info { /* تصميم جديد لمعلومات الاتصال في المقدمة */
+.hero-contact-info { /* تصميم معلومات الاتصال المدمجة في المقدمة */
     color: var(--color-highlight);
     font-size: 18px;
     margin-top: 10px;
     margin-bottom: 25px;
     font-weight: 400;
 }
+.hero-contact-info p {
+    margin: 5px 0;
+    font-size: 16px;
+}
+.hero-contact-info i {
+    margin-left: 8px;
+    color: var(--color-accent);
+}
+
 .section-title {
     font-size: var(--font-size-medium);
     color: var(--color-accent);
