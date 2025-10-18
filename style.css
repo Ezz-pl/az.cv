@@ -69,9 +69,16 @@ html[dir="rtl"] .skill-bar { border-radius: 4px 0 0 4px; }
 .lang-switch-container {
     position: fixed;
     top: 20px;
-    right: 40px; 
+    /* تم نقله إلى اليسار (في وضع RTL) لتجنب تغطية الاسم */
+    left: 40px; 
+    right: auto;
     z-index: 1000;
 }
+html[dir="ltr"] .lang-switch-container {
+    left: auto;
+    right: 40px;
+}
+
 .btn-lang-toggle {
     background: var(--color-background-secondary);
     border: 1px solid var(--color-gray);
@@ -91,7 +98,6 @@ html[dir="rtl"] .skill-bar { border-radius: 4px 0 0 4px; }
     cursor: pointer;
     font-weight: 700;
     transition: all 0.3s;
-    text-decoration: none;
     border: none;
 }
 .btn-primary {
@@ -141,6 +147,14 @@ main { max-width: 1200px; margin: 0 auto; padding: 20px; }
     box-shadow: 0 0 20px var(--color-highlight);
     margin-bottom: 20px;
 }
+.hero-contact-info { /* تصميم جديد لمعلومات الاتصال في المقدمة */
+    color: var(--color-highlight);
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    font-weight: 400;
+}
+
 .section-title {
     font-size: var(--font-size-medium);
     color: var(--color-accent);
@@ -264,6 +278,7 @@ html[dir="ltr"] .section-title::after { right: auto; left: 0; }
     overflow: hidden;
     border-radius: 4px;
 }
+/* تخصيص الـ CSS للحركة التفاعلية */
 .skill-bar::after {
     content: '';
     display: block;
@@ -272,7 +287,7 @@ html[dir="ltr"] .section-title::after { right: auto; left: 0; }
     position: absolute;
     top: 0;
     right: 0; /* يبدأ من اليمين لـ RTL */
-    width: 0;
+    width: var(--skill-width, 0); /* يستخدم المتغير من JS */
     transition: width 1.5s ease-out;
 }
 html[dir="ltr"] .skill-bar::after {
@@ -390,17 +405,24 @@ footer {
         display: none; 
     }
     .lang-switch-container {
-        right: 20px;
+        left: 20px; 
+        right: auto;
     }
     .hero-section {
         height: auto;
-        padding: 100px 20px 50px;
+        /* تعطيل Parallax على الجوال */
         background-attachment: scroll !important;
+        padding: 100px 20px 50px;
     }
     .stats-grid, .skills-grid, .contact-grid {
         grid-template-columns: 1fr;
     }
     .timeline-container {
         padding-right: 10px;
+    }
+    /* تصحيح موضع الزر على الجوال لعدم التغطية */
+    html[dir="rtl"] .lang-switch-container {
+        left: 10px;
+        top: 10px;
     }
 }
