@@ -326,7 +326,32 @@ html[dir="ltr"] .skill-bar::after {
     border-bottom: none;
 }
 
-/* --- 9. التواصل والـ Footer --- */
+/* --- 9. معلومات الاتصال الأساسية --- */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+.contact-item {
+    background-color: var(--color-background-secondary);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+}
+.contact-item i {
+    margin-left: 15px;
+    flex-shrink: 0;
+}
+.contact-item p, .contact-item a {
+    margin: 0;
+    color: var(--color-light);
+    font-size: 16px;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+/* --- 10. التواصل والـ Footer --- */
 .contact-email-btn {
     display: block;
     max-width: 300px;
@@ -352,7 +377,7 @@ footer {
     color: var(--color-accent);
 }
 
-/* --- 10. التجاوب الجبار (Mobile Responsiveness) --- */
+/* --- 11. التجاوب الجبار (Mobile Responsiveness) --- */
 @media (max-width: 768px) {
     :root {
         --font-size-large: 36px;
@@ -372,7 +397,7 @@ footer {
         padding: 100px 20px 50px;
         background-attachment: scroll !important;
     }
-    .stats-grid, .skills-grid {
+    .stats-grid, .skills-grid, .contact-grid {
         grid-template-columns: 1fr;
     }
     .timeline-container {
