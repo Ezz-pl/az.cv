@@ -234,8 +234,8 @@ function renderCertifications() {
 // 7. وظيفة توليد السيرة الذاتية (PDF Generation)
 // ===================================================
 document.getElementById('download-cv-btn').addEventListener('click', () => {
-    // العناصر الأساسية التي يجب تضمينها في الـ CV المختصر:
-    const elementsToCapture = ['#home', '#about', '#experience', '#skills', '#contact-info']; 
+    // 🔴 تم إضافة '#education' لضمان التقاطه في الـ PDF
+    const elementsToCapture = ['#home', '#about', '#experience', '#education', '#skills', '#contact-info']; 
     const temporaryDiv = document.createElement('div');
     temporaryDiv.id = 'pdf-capture-temp';
     // تحديد خصائص لتوليد PDF بشكل صحيح (خلفية بيضاء، حجم مناسب)
@@ -261,7 +261,8 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
                  clone.querySelector('.hero-content').style.background = 'none';
                  clone.querySelector('.hero-content').style.boxShadow = 'none';
                  clone.querySelector('.cta-buttons').style.display = 'none'; // إزالة الأزرار
-                 clone.querySelector('.profile-image').style.border = '2px solid #A900FF'; 
+                 // 🔴 تغيير لون الحدود في الـ PDF إلى الأزرق الكحلي
+                 clone.querySelector('.profile-image').style.border = '2px solid #0D47A1'; 
                  clone.querySelectorAll('.hero-contact-info span').forEach(span => span.style.color = '#000000'); // جعل المعلومات سوداء
                  clone.style.height = 'auto';
                  clone.style.textAlign = 'center';
@@ -287,15 +288,16 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
                 clone.querySelectorAll('.skill-group h4').forEach(h4 => h4.style.color = '#000000');
                 clone.querySelectorAll('.skill-bar-container p').forEach(p => p.style.color = '#000000');
                 clone.querySelectorAll('.skill-bar').forEach(bar => {
-                    // إظهار الشريط باللون الأرجواني مباشرة
+                    // إظهار الشريط باللون الأزرق الكحلي مباشرة
                     bar.style.width = bar.getAttribute('data-level') + '%';
-                    bar.style.backgroundColor = '#A900FF'; 
+                    bar.style.backgroundColor = '#0D47A1'; 
                     bar.style.height = '8px';
                     bar.style.position = 'static'; // إزالة الوضع المطلق لـ ::after
                     // يتم إنشاء عنصر وهمي بالـ JS لتقليد الـ ::after لـ html2canvas
                     const fillBar = document.createElement('div');
                     fillBar.style.height = '8px';
-                    fillBar.style.backgroundColor = '#A900FF';
+                    // 🔴 لون شريط المهارة في الـ PDF
+                    fillBar.style.backgroundColor = '#0D47A1'; 
                     fillBar.style.width = bar.getAttribute('data-level') + '%';
                     if (currentLang === 'ar') {
                         fillBar.style.float = 'right';
@@ -315,12 +317,14 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
                     item.style.color = '#000';
                 });
                 clone.querySelectorAll('.contact-item a').forEach(a => a.style.color = '#000');
-                clone.querySelectorAll('.contact-item i').forEach(i => i.style.color = '#A900FF');
+                // 🔴 لون الأيقونات في الـ PDF
+                clone.querySelectorAll('.contact-item i').forEach(i => i.style.color = '#0D47A1');
             }
-            // تخصيص قسم الخبرة (#experience)
-            if (selector === '#experience') {
+            // تخصيص قسم الخبرة (#experience) وقسم التعليم (#education)
+            if (selector === '#experience' || selector === '#education') {
                 clone.querySelectorAll('.timeline-item h4').forEach(h4 => h4.style.color = '#333');
-                clone.querySelectorAll('.timeline-item h5').forEach(h5 => h5.style.color = '#A900FF');
+                // 🔴 لون الجهة المانحة في الـ PDF
+                clone.querySelectorAll('.timeline-item h5').forEach(h5 => h5.style.color = '#0D47A1');
                 clone.querySelectorAll('.timeline-item ul').forEach(ul => {
                      ul.style.color = '#555';
                      // إزالة نقطة الـ before التي لا تظهر بشكل جيد في الـ PDF
@@ -333,8 +337,9 @@ document.getElementById('download-cv-btn').addEventListener('click', () => {
             
             // تعديلات عامة
             clone.querySelectorAll('.section-title').forEach(title => {
-                title.style.color = '#A900FF';
-                title.style.borderBottom = '2px solid #A900FF';
+                // 🔴 لون العنوان الرئيسي في الـ PDF
+                title.style.color = '#0D47A1';
+                title.style.borderBottom = '2px solid #0D47A1';
             });
             
             temporaryDiv.appendChild(clone);
