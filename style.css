@@ -137,9 +137,11 @@ main { max-width: 1200px; margin: 0 auto; padding: 20px; }
     display: flex;
     align-items: center;
     justify-content: center;
-    /* خلفية بارالاكس */
-    background: url('https://placehold.co/1920x1080/0A192F/112240?text=.+.') no-repeat center center fixed; 
-    background-size: cover;
+    /* ❌ تم حذف الخلفية البارالاكس مع النص ❌ */
+    background: var(--color-dark-blue); /* تعيين اللون الأساسي للخلفية */
+    background-size: cover; /* تم الإبقاء عليها ولكنها لا تؤثر الآن */
+}
+
 }
 .hero-content {
     background: rgba(10, 25, 47, 0.9); 
